@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const UrlModel = require('./models/linkdb');
 require('dotenv').config();
+mongoose.set('strictQuery', false)
 
 
 mongoose.connect(process.env.MONGODB_CONNECT_URI,{
