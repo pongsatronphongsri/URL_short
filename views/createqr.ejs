@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreateQR</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            max-width: 400px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-body text-center">
+            <h1 class="card-title">QR Code Page</h1>
+            
+            <p>Scan the QR code below to visit the URL:</p>
+            <img src="<%= qrCodeUrl %>" alt="QR Code" class="qr-code">
+
+            <p>Original Long URL: <a href="<%= longUrl %>"><%= longUrl %></a></p>
+            
+            <a href="/" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</body>
+</html>

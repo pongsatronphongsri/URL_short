@@ -13,7 +13,11 @@ const UrlSchema = mongoose.Schema({
     clickCount : {
         type : Number,
         default : 0
+    },
+    qrCode :{
+        type : String,
     }
+
 })
 
 const UrlModel = mongoose.model('linkdb',UrlSchema);

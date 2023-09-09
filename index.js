@@ -3,6 +3,7 @@ const app  =  express();
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const UrlModel = require('./models/linkdb');
+const qrcode = require('qrcode');
 require('dotenv').config();
 mongoose.set('strictQuery', false)
 
@@ -64,6 +65,40 @@ app.get('/:urlId', async (req, res) => {
         res.sendStatus(500); // Handle errors gracefully
     }
 });
+app.get('/qrcode/:id', async (req, res) => {
+    try {
+      const shortUrl = req.params.id;
+  
+      // Find the URL in the database by short URL
+      const url = await UrlModel.findOne({ shortUrl: shortUrl });
+  
+      if (url) {
+        // Generate a QR code for the long URL
+        const qrCodeData = url.longUrl; // Use the long URL directly
+        const qrCodeUrl = await generateQRCode(qrCodeData);
+        res.render('createqr', {
+          shortUrl: url.shortUrl,
+          qrCodeUrl: qrCodeUrl,
+          longUrl: url.longUrl, // Pass the long URL for redirection
+        });
+      
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  });
+  async function generateQRCode(data) {
+    try {
+      const qrCodeUrl = await qrcode.toDataURL(data);
+      return qrCodeUrl;
+    } catch (err) {
+      throw err;
+    }
+}
+  
 function gennerateUrl(){
     var rndResult = "";
     var charecter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -77,6 +112,26 @@ function gennerateUrl(){
     console.log(rndResult);
     return rndResult
 }
+//delete
+app.post('/delete/:id', async (req, res) => {
+    try {
+      const shortUrl = req.params.id;
+  
+      // Find the URL in the database by short URL
+      const url = await UrlModel.findOne({ shortUrl: shortUrl });
+  
+      if (url) {
+        // Delete the URL from the database
+        await url.remove();
+        res.redirect('/');
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+})
 
 app.listen(process.env.PORT || 3000,function(){
     console.log('Port running 3000')

@@ -31,12 +31,18 @@
     </form>
         <div class="row">
             <% for(let i=0;i< UrlResult.length;i++) {%>
-            <div class="col-lg-3">
-                <div class="card border-secondary mb-3" style="max-width: 18rem;">
+            <div class="col-lg-3 d-flex">
+                <div class="card border-secondary flex-fill mb-3" style="max-width: 18rem;">
                     <div class="card-header">Total Click: <%=UrlResult[i].clickCount  %></div>
-                    <div class="card-body text-secondary">
-                        <a href="http://localhost:3000/<%=UrlResult[i].shortUrl  %>" target="_blank">http://localhost:3000/<%=UrlResult[i].shortUrl  %></a>
+                    <div class="card-body text-secondary d-flex flex-column">
+                        <a href="http://localhost:3000/<%=UrlResult[i].shortUrl  %>" target="_blank">http://url-short-at.onrender.com/<%=UrlResult[i].shortUrl  %></a>
                         <p class="card-text"><%=UrlResult[i].longUrl  %></p>
+                        <a href="/qrcode/<%=UrlResult[i].shortUrl  %>" class="btn btn-primary mt-auto d-flex justify-content-center align-items-center"  role="button">View QR Code</a>
+                        <br>
+                        <form method="POST" action="/delete/<%= UrlResult[i].shortUrl %>" style="display: inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this URL?')">Delete</button>
+                        </form>
+                        
                     </div>
                 </div>
             </div>
