@@ -21,10 +21,10 @@ app.set('view engine',"ejs");
 app.use(bodyParser.urlencoded({extended: true}))
 app.get('/', async function(req, res) {
     try {
-        const allUrl = await UrlModel.find();
+        const allUrl = await UrlModel.find();// ค้นหาทุก URL ในฐานข้อมูล
         res.render('home', {
             UrlResult: allUrl
-        });
+        });// แสดงหน้า home พร้อมข้อมูล URL ทั้งหมด
     } catch (err) {
         console.error(err);
         res.render('home'); // You might want to handle errors differently
